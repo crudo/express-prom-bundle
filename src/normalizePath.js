@@ -1,7 +1,6 @@
 'use strict';
 
 const UrlValueParser = require('url-value-parser');
-const url = require('url');
 
 // ATTENTION! urlValueParser is a singleton!
 let urlValueParser;
@@ -10,7 +9,7 @@ module.exports = function(req, opts) {
   // originalUrl is taken, because url and path can be changed
   // by middlewares such as 'router'. Note: this function is called onFinish
   /// i.e. always in the tail of the middleware chain
-  let path = url.parse(req.originalUrl || req.url).pathname;
+  let path = new URL(req.originalUrl || req.url, 'http://localhost').pathname;
   const urlPathReplacement = opts ? opts.urlPathReplacement : '#val';
 
   const normalizePath = opts && opts.normalizePath;
